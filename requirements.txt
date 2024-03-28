@@ -1,5 +1,7 @@
 openai
+anthropic
 python-dotenv
 requests
-gym
+gymnasium
 bs4
+ipykernel
