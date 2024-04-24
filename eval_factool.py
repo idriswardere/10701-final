@@ -5,9 +5,9 @@ from factool import Factool
 
 INPUTS_PATH = "fever_inputs.jsonl"
 LABELS_PATH = "fever_labels.jsonl"
+RESPONSE_PATH = 'factool_response.json'
 
-def main():
-    # Initialize a Factool instance with the specified keys. foundation_model could be either "gpt-3.5-turbo" or "gpt-4"
+def create_response():
     factool_instance = Factool("gpt-4")
 
     with open(INPUTS_PATH, "r") as json_file:
@@ -16,13 +16,21 @@ def main():
         for entry in json_list:
             inputs.append(json.loads(entry))
 
+    response_list = factool_instance.run(inputs)
+
+    with open(RESPONSE_PATH, 'w') as file:
+        json.dump(response_list, file)
+
+
+def eval():
+    with open(RESPONSE_PATH, 'r') as file:
+        response_list = json.load(file)
+
     with open(LABELS_PATH, "r") as json_file:
         json_list = list(json_file)
         labels = []
         for label in json_list:
             labels.append(json.loads(label))
-
-    response_list = factool_instance.run(inputs[:15])
 
     pred_labels = []
     for output in response_list["detailed_information"]:
@@ -40,10 +48,11 @@ def main():
         elif label == ("NOT ENOUGH INFO" or label == "REFUTES") and pred_label != "SUPPORTS":
             correct += 1
         total += 1
-
+    
     print(f"====\nAccuracy: {correct/total}\n====")
 
 
 if __name__ == "__main__":
     load_dotenv()
-    main()
+    # create_response()
+    eval()
