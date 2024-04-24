@@ -1,12 +1,17 @@
 import json
+import random
 
 DATA_PATH = f"./data/paper_dev.jsonl"
+NUM_INPUTS = 100
 
 def create_factool_inputs():
     with open(DATA_PATH, "r") as json_file:
         json_list = list(json_file)
         claims, labels = [], []
-        for entry in json_list:
+        idxs = list(range(7405))
+        random.Random(0).shuffle(idxs)
+        for i in idxs[:NUM_INPUTS]:
+            entry = json_list[i]
             entry_j = json.loads(entry)
             claims.append(entry_j["claim"])
             labels.append(entry_j["label"])
