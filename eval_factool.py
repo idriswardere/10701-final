@@ -22,7 +22,7 @@ def main():
         for label in json_list:
             labels.append(json.loads(label))
 
-    response_list = factool_instance.run(inputs[:8])
+    response_list = factool_instance.run(inputs[:15])
 
     pred_labels = []
     for output in response_list["detailed_information"]:
@@ -35,13 +35,13 @@ def main():
     correct = 0
     total = 0
     for label, pred_label in zip(labels, pred_labels):
-        if label == pred_label:
+        if label == "SUPPORTS" and pred_label == "SUPPORTS":
+            correct += 1
+        elif label == ("NOT ENOUGH INFO" or label == "REFUTES") and pred_label != "SUPPORTS":
             correct += 1
         total += 1
-    
-    print(f"Accuracy: {correct/total}")
 
-    
+    print(f"====\nAccuracy: {correct/total}\n====")
 
 
 if __name__ == "__main__":
