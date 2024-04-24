@@ -45,7 +45,7 @@ def eval():
     for label, pred_label in zip(labels, pred_labels):
         if label == "SUPPORTS" and pred_label == "SUPPORTS":
             correct += 1
-        elif label == ("NOT ENOUGH INFO" or label == "REFUTES") and pred_label != "SUPPORTS":
+        elif (label == "NOT ENOUGH INFO" or label == "REFUTES") and pred_label != "SUPPORTS":
             correct += 1
         total += 1
     

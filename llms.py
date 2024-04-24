@@ -26,7 +26,7 @@ def GPT4(prompt, stop=["\n"]):
     client = OpenAI(api_key=os.environ["OPENAI_API_KEY"])
     
     response = client.chat.completions.create(
-      model="gpt-4-0125-preview",
+      model="gpt-4",
       messages=[
             {
                 "role": "system",
